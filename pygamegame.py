@@ -1,4 +1,5 @@
 '''
+Basic layout of this file taken from:
 pygamegame.py
 created by Lukas Peraza
  for 15-112 F15 Pygame Optional Lecture, 11/11/15
@@ -58,7 +59,6 @@ class PygameGame(object):
         pygame.init()
 
     def run(self):
-
         clock = pygame.time.Clock()
         screen = pygame.display.set_mode((self.width, self.height))
         # set the title of the window
