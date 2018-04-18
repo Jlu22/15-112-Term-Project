@@ -1,13 +1,9 @@
 '''
 Basic layout of this file taken from:
+
 pygamegame.py
 created by Lukas Peraza
  for 15-112 F15 Pygame Optional Lecture, 11/11/15
-
-use this code in your term project if you want
-- CITE IT
-- you can modify it to your liking
-  - BUT STILL CITE IT
 
 - you should remove the print calls from any function you aren't using
 - you might want to move the pygame.display.flip() to your redrawAll function,
@@ -51,6 +47,7 @@ class PygameGame(object):
         return self._keys.get(key, False)
 
     def __init__(self, width=600, height=400, fps=50, title="112 Pygame Game"):
+        self.mode = "menu"
         self.width = width
         self.height = height
         self.fps = fps
