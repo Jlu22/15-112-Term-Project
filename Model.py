@@ -6,9 +6,8 @@ from Camera import Camera
 # Model rotation and view algorithms inspired by:
 # https://www.youtube.com/watch?v=g4E9iq0BixA
 
-class Model (PygameGame):
-    def init(self):
-        self.bgColor = (255, 255, 255)
+class Model (object):
+    def __init__(self, width, height, keys):
         self.verts = [(-1, -1, -1), (1, -1, -1), (1, 1, -1), (-1, 1, -1), 
                       (-1, -1, 1), (1, -1, 1),(1, 1, 1), (-1, 1, 1)] 
                       # basic points of a cube... just for testing
@@ -16,8 +15,11 @@ class Model (PygameGame):
                       (6, 7), (7, 4), (0, 4), (1, 5), (2, 6), (3, 7)]
         self.camera = Camera((0, 0, -10))
         self.radians = 0
+        self.width = width
+        self.height = height
         self.cx = self.width//2 # center of screen
         self.cy = self.height//2
+        self.keys = keys
     
     def mouseDrag(self, x, y):
         print("orig",x, y)
@@ -27,6 +29,10 @@ class Model (PygameGame):
     
     def timerFired(self, dt):
         self.camera.update(dt, self.isKeyPressed)
+    
+    def isKeyPressed(self, key):
+        ''' return whether a specific key is being held '''
+        return self.keys.get(key, False)
     
     def redrawAll(self, screen):
         for edge in self.edges:
@@ -46,6 +52,3 @@ class Model (PygameGame):
                 x, y = x*factor, y*factor # according to z, give illusion of 3D
                 points += [(self.cx+int(x), self.cy+int(y))]
             pygame.draw.line(screen, (0,0,0), points[0], points[1], 1)
-
-
-Model(800, 500).run()

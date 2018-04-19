@@ -25,12 +25,12 @@ class Camera(object):
             if self.pos[2] < -3: # so camera doesn't go through model
                 self.pos[2] += timePressed
         if key(pygame.K_RIGHT):
-            self.pos[0] -= timePressed
-        if key(pygame.K_LEFT):
             self.pos[0] += timePressed
+        if key(pygame.K_LEFT):
+            self.pos[0] -= timePressed
         if key(pygame.K_DOWN):
-            self.pos[1] -= timePressed
-        if key(pygame.K_UP):
             self.pos[1] += timePressed
+        if key(pygame.K_UP):
+            self.pos[1] -= timePressed
         
         #x, y = s*math.sin(self.rot[1]), s*math.cos(self.rot(1))

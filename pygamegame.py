@@ -91,7 +91,6 @@ class PygameGame(object):
                     playing = False
             screen.fill(self.bgColor)
             self.redrawAll(screen)
-            pygame.display.flip()
 
         pygame.quit()
 

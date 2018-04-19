@@ -7,7 +7,7 @@ from Model import Model
 class PyCAD(PygameGame):
     
     def init(self):
-        pass
+        self.modelList = []
     
     def mousePressed(self, x, y):
         if self.mode == "menu":
@@ -24,14 +24,20 @@ class PyCAD(PygameGame):
     def keyPressed(self, keyCode, modifier):
         if self.mode == "menu":
             self.menuKeyPressed(keyCode, modifier)
+        elif self.mode == "create":
+            self.createKeyPressed(keyCode, modifier)
     
     def timerFired(self, dt):
         if self.mode == "menu":
             self.menuTimerFired(dt)
+        elif self.mode == "create":
+            self.createTimerFired(dt)
 
     def redrawAll(self, screen):
         if self.mode == "menu":
             self.menuRedrawAll(screen)
+        elif self.mode == "create":
+            self.createRedrawAll(screen)
 
 ##          Menu          ##
     
@@ -39,7 +45,7 @@ class PyCAD(PygameGame):
         pass
         
     def menuMousePressed(self, x, y):
-        pass
+        self.mode = "create"
     
     def menuKeyPressed(self, keyCode, modifier):
         pass
@@ -48,10 +54,27 @@ class PyCAD(PygameGame):
         pass
     
     def menuRedrawAll(self, screen):
-        pass
+        pygame.draw.rect(screen, (255, 0, 0), (300, 300, 200, 50))
+        pygame.draw.rect(screen, (0, 255, 0), (300, 400, 200, 50))
+        pygame.display.flip()
 
 ##          Create Model          ##
 
+    def createTimerFired(self, dt):
+        for model in self.modelList:
+            model.timerFired(dt)
+    
+    def createKeyPressed(self, keyCode, modifier):
+        if keyCode == pygame.K_n:
+            self.modelList.append(Model(self.width, self.height, self._keys))
+        if keyCode == pygame.K_m:
+            self.modelList = []
+            self.mode = "menu"
+    
+    def createRedrawAll(self, screen):
+        for model in self.modelList:
+            model.redrawAll(screen)
+        pygame.display.update((0, 50, 800, 400))
 
 ##          Assembly          ##
 
