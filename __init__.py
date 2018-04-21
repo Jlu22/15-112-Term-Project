@@ -1,3 +1,5 @@
+# file that initiates whole project
+
 import pygame
 import math
 from pygamegame import PygameGame
@@ -14,8 +16,9 @@ class PyCAD(PygameGame):
             self.menuMousePressed(x, y)
     
     def mouseDrag(self, x, y):
-        if self.mode == "menu":
-            return
+        if self.mode == "create":
+            for model in self.modelList:
+                model.mouseDrag( x, y)
     
     def mouseMotion(self, x, y):
         if self.mode == "menu":
@@ -54,8 +57,9 @@ class PyCAD(PygameGame):
         pass
     
     def menuRedrawAll(self, screen):
-        pygame.draw.rect(screen, (255, 0, 0), (300, 300, 200, 50))
-        pygame.draw.rect(screen, (0, 255, 0), (300, 400, 200, 50))
+        self.bgColor = (217, 224, 247)
+        pygame.draw.rect(screen, (255, 0, 0), (300, 270, 200, 50))
+        pygame.draw.rect(screen, (0, 0, 255), (300, 350, 200, 50))
         pygame.display.flip()
 
 ##          Create Model          ##
@@ -72,6 +76,7 @@ class PyCAD(PygameGame):
             self.mode = "menu"
     
     def createRedrawAll(self, screen):
+        self.bgColor = (178, 170, 158)
         for model in self.modelList:
             model.redrawAll(screen)
         pygame.display.update((0, 50, 800, 400))

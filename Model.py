@@ -43,7 +43,7 @@ class Model (object):
                 z -= self.camera.pos[2]
                 
                 x, z = Camera.rotation((x, z), self.camera.rot[1])
-                y, z = Camera.rotation((y, z), self.camera.rot[0])
+                y, x = Camera.rotation((y, x), self.camera.rot[0])
                 
                 scale = max(self.width, self.height)//2
                 # this scale attempts to maintain good proportions of the part
