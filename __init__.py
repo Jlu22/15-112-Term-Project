@@ -27,8 +27,8 @@ class PyCAD(PygameGame):
             helpMousePressed(self, x, y)
     
     def mouseDrag(self, x, y):
-        if self.mode == "create":
-            for model in self.modelList:
+        if self.mode == "assem":
+            for model in self.assemList:
                 model.mouseDrag(x, y)
     
     def mouseMotion(self, x, y):

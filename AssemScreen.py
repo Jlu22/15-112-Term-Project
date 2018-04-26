@@ -3,6 +3,7 @@ from Model import Model
 
 def assemInit(self):
     self.assemList = []
+    self.assemUndo = []
 
 def assemMousePressed(self, x, y):
     pass
@@ -15,6 +16,10 @@ def assemKeyPressed(self, keyCode, modifier):
         self.mode = "menu"
     if keyCode == pygame.K_h:
         self.mode = "help"
+    if keyCode == pygame.K_u and len(self.assemList) > 0:
+        self.assemUndo.append(self.assemList.pop())
+    if keyCode == pygame.K_r and len(self.assemUndo) > 0:
+        self.assemList.append(self.assemUndo.pop())
 
 def assemTimerFired(self, dt):
     for model in self.assemList:

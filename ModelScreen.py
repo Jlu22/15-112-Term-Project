@@ -15,6 +15,8 @@ def createMousePressed(self, x, y):
 
 def createKeyPressed(self, keyCode, modifier):
     if keyCode == pygame.K_m:
+        self.sketchPoints = []
+        self.sketchUndo = []
         self.mode = "menu"
     if keyCode == pygame.K_h:
         self.mode = "help"
