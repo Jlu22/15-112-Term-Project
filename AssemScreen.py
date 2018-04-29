@@ -9,8 +9,13 @@ def assemMousePressed(self, x, y):
     pass
 
 def assemKeyPressed(self, keyCode, modifier):
+    cubeVerts = [(-1, -1, -1), (1, -1, -1), (1, 1, -1), (-1, 1, -1), 
+                      (-1, -1, 1), (1, -1, 1),(1, 1, 1), (-1, 1, 1)] 
+    cubeEdges = [(0, 1), (1, 2), (2, 3), (3, 0), (4, 5), (5, 6), 
+                      (6, 7), (7, 4), (0, 4), (1, 5), (2, 6), (3, 7)]
+    
     if keyCode == pygame.K_n:
-        self.assemList.append(Model(self.width, self.height, self._keys))
+        self.assemList.append(Model(self.width, self.height, self._keys, cubeVerts, cubeEdges))
     if keyCode == pygame.K_m:
         self.assemList = []
         self.mode = "menu"

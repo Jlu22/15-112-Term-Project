@@ -7,13 +7,10 @@ from Camera import Camera
 # https://www.youtube.com/watch?v=g4E9iq0BixA
 
 class Model (object):
-    def __init__(self, width, height, keys):
-        self.verts = [(-1, -1, -1), (1, -1, -1), (1, 1, -1), (-1, 1, -1), 
-                      (-1, -1, 1), (1, -1, 1),(1, 1, 1), (-1, 1, 1)] 
-                      # basic points of a cube... just for testing
-        self.edges = [(0, 1), (1, 2), (2, 3), (3, 0), (4, 5), (5, 6), 
-                      (6, 7), (7, 4), (0, 4), (1, 5), (2, 6), (3, 7)]
-        self.camera = Camera((0, 0, -10))
+    def __init__(self, width, height, keys, verts, edges):
+        self.verts = verts
+        self.edges = edges
+        self.camera = Camera((0, 0, -8))
         self.radians = 0
         self.width = width
         self.height = height

@@ -11,6 +11,7 @@ class Camera(object):
         y /= 200
         self.rot[0] += y
         self.rot[1] += x
+        print(self.rot[0], self.rot[1])
     
     @staticmethod
     def rotation(pos, rad):
