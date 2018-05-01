@@ -33,8 +33,6 @@ def createMousePressed(self, x, y):
             and self.findDepth == False): # click finish sketch
             if len(self.sketchPoints) >= 3:
                 self.findDepth = True
-                # self.saved += str(self.curModel)
-                # print(self.saved)
             else:
                 self.sketchError = True
 
