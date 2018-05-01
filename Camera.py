@@ -20,9 +20,9 @@ class Camera(object):
         
     def update(self, dt, key):
         timePressed = dt/100
-        if key(pygame.K_i): # in future want this to be mouse wheel scroll
-            self.pos[2] -= timePressed
         if key(pygame.K_o):
+            self.pos[2] -= timePressed
+        if key(pygame.K_i):
             if self.pos[2] < -3: # so camera doesn't go through model
                 self.pos[2] += timePressed
         if key(pygame.K_RIGHT):
@@ -33,5 +33,8 @@ class Camera(object):
             self.pos[1] += timePressed
         if key(pygame.K_UP):
             self.pos[1] -= timePressed
+        
+        if key(pygame.K_SPACE):
+            self.pos = [0, 0, -5]
         
         #x, y = s*math.sin(self.rot[1]), s*math.cos(self.rot(1))

@@ -18,6 +18,10 @@ class Model (object):
         self.cy = self.height//2
         self.keys = keys
     
+    def __eq__(self, object):
+        return (isinstance(object, Model) and self.verts == object.verts and
+                self.edges == object.edges)
+    
     def mouseDrag(self, x, y):
         print("orig",x, y)
         dx, dy = pygame.mouse.get_rel()

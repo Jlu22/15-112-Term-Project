@@ -6,14 +6,19 @@ from MenuScreen import *
 from ModelScreen import *
 from AssemScreen import *
 from HelpScreen import *
-
+from SaveScreen import *
+from SaveFiles import checkSaved
+  
 class PyCAD(PygameGame):
     
     def init(self):
+        self.saved = ""
         menuInit(self)
         createInit(self)
         assemInit(self)
         helpInit(self)
+        saveInit(self)
+        checkSaved(self)
     
     def mousePressed(self, x, y):
         print(x, y)
@@ -25,6 +30,8 @@ class PyCAD(PygameGame):
             assemMousePressed(self, x, y)
         elif self.mode == "help":
             helpMousePressed(self, x, y)
+        elif self.mode == "save":
+            saveMousePressed(self, x, y)
     
     def mouseDrag(self, x, y):
         if self.mode == "assem":
@@ -44,6 +51,8 @@ class PyCAD(PygameGame):
             assemKeyPressed(self, keyCode, modifier)
         elif self.mode == "help":
             helpKeyPressed(self, keyCode, modifier)
+        elif self.mode == "save":
+            saveKeyPressed(self, keyCode, modifier)
     
     def timerFired(self, dt):
         if self.mode == "menu":
@@ -52,6 +61,8 @@ class PyCAD(PygameGame):
             createTimerFired(self, dt)
         elif self.mode == "assem":
             assemTimerFired(self, dt)
+        elif self.mode == "save":
+            saveTimerFired(self, dt)
 
     def redrawAll(self, screen):
         if self.mode == "menu":
@@ -62,5 +73,7 @@ class PyCAD(PygameGame):
             assemRedrawAll(self, screen)
         elif self.mode == "help":
             helpRedrawAll(self, screen)
+        elif self.mode == "save":
+            saveRedrawAll(self, screen)
     
 PyCAD(800, 500).run()

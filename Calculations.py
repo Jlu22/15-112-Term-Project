@@ -44,4 +44,3 @@ def calculateEdges(verts):
         else:
             edges.append((vert, vert + 1))
     return edges
-    

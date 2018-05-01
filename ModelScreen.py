@@ -27,7 +27,10 @@ def createMousePressed(self, x, y):
             if len(self.sketchPoints) >= 3:
                 verts = calculateVerts(self.sketchPoints, 2)
                 edges = calculateEdges(verts)
-                self.curModel = Model(self.width, self.height, self._keys, verts, edges)
+                self.curModel = Model(self.width, self.height, self._keys, 
+                                      verts, edges)
+                # self.saved += str(self.curModel)
+                # print(self.saved)
                 self.modelMode = "view"
             #     self.findDepth = True
             #     while not ( <= x <= ) and 
@@ -45,22 +48,25 @@ def createKeyPressed(self, keyCode, modifier):
     if keyCode == pygame.K_h:
         self.mode = "help"
     if self.modelMode == "sketch":
-        if keyCode == pygame.K_u:
-            if (len(self.sketchPoints) == 0 and len(self.sketchUndo) == 0 and
-                len(self.tmpSketchPoints) > 0):
-                self.sketchPoints = self.tmpSketchPoints
-                self.sketchUndo = self.tmpSketchUndo
-                self.tmpSketchPoints = []
-                self.sketchUndo = []
-            elif len(self.sketchPoints) > 0:
-                self.sketchUndo.append(self.sketchPoints.pop())
-        if keyCode == pygame.K_r and len(self.sketchUndo) > 0:
-            self.sketchPoints.append(self.sketchUndo.pop())
-        if keyCode == pygame.K_c:
-            self.tmpSketchPoints = self.sketchPoints
-            self.tmpSketchUndo = self.sketchUndo
-            self.sketchPoints = []
+        sketchKeyPressed(self, keyCode, modifier)
+
+def sketchKeyPressed(self, keyCode, modifier):
+    if keyCode == pygame.K_u:
+        if (len(self.sketchPoints) == 0 and len(self.sketchUndo) == 0 and
+            len(self.tmpSketchPoints) > 0):
+            self.sketchPoints = self.tmpSketchPoints
+            self.sketchUndo = self.tmpSketchUndo
+            self.tmpSketchPoints = []
             self.sketchUndo = []
+        elif len(self.sketchPoints) > 0:
+            self.sketchUndo.append(self.sketchPoints.pop())
+    if keyCode == pygame.K_r and len(self.sketchUndo) > 0:
+        self.sketchPoints.append(self.sketchUndo.pop())
+    if keyCode == pygame.K_c:
+        self.tmpSketchPoints = self.sketchPoints
+        self.tmpSketchUndo = self.sketchUndo
+        self.sketchPoints = []
+        self.sketchUndo = []
 
 def createTimerFired(self, dt):
     if self.modelMode == "view" and not self.curModel == None:
@@ -92,4 +98,3 @@ def drawOptions(self, screen):
         pygame.draw.polygon(screen, (255, 255, 255), (150, 150, 500, 200))
         pygame.draw.polygon(screen, (255, 255, 255), (150, 150, 500, 200))
     pygame.display.update((0, 0, 800, 50))
-    

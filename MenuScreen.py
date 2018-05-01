@@ -10,7 +10,8 @@ def menuMousePressed(self, x, y):
         self.mode = "assem"
     elif (170 <= x <= 380) and (360 <= y <= 420):
         self.mode = "help"
-    #elif (430 <= x <= 650) and (360 <= y <= 420):
+    elif (430 <= x <= 650) and (360 <= y <= 420):
+        self.mode = "save"
 
 def menuKeyPressed(self, keyCode, modifier):
     pass
