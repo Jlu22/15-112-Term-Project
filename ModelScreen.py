@@ -11,33 +11,42 @@ def createInit(self):
     self.tmpSketchUndo = []
     self.sketchError = False
     self.findDepth = False
+    self.createModel = False
+    self.curDepth = 1.0
 
 def createMousePressed(self, x, y):
-    if self.modelMode == "view" and (20 <= x <= 90) and (10 <= y <= 40):
+    if (self.modelMode == "view" and self.sketchError == False and 
+        self.findDepth == False and (20 <= x <= 90) and (10 <= y <= 40)):
         self.sketchPoints = []
         self.sketchUndo = []
         self.tmpSketchPoints = []
         self.tmpSketchUndo = []
         self.modelMode = "sketch"
     elif self.modelMode == "sketch":
-        if (50 <= y <= 450):
+        if self.findDepth == True:
+            if ((207 <= x <= 257) and (240 <= y <= 300) and 
+                self.curDepth > 1):
+                self.curDepth -= 1
+            elif ((543 <= x <= 593) and (240 <= y <= 300) and 
+                self.curDepth < 10):
+                self.curDepth += 1
+            elif ((164 <= x <= 199) and (250 <= y <= 290) and
+                self.curDepth > 1):
+                self.curDepth -= 0.1
+            elif ((601 <= x <= 636) and (250 <= y <= 290) and 
+                self.curDepth < 10):
+                self.curDepth += 0.1
+        elif (50 <= y <= 450): # add point to sketch
             self.sketchPoints.append((x,y))
             self.sketchUndo = []
-        if (710 <= x <= 780) and (10 <= y <= 40):
+        elif ((710 <= x <= 780) and (10 <= y <= 40) and self.sketchError == False
+            and self.findDepth == False): # click finish sketch
             if len(self.sketchPoints) >= 3:
-                verts = calculateVerts(self.sketchPoints, 2)
-                edges = calculateEdges(verts)
-                self.curModel = Model(self.width, self.height, self._keys, 
-                                      verts, edges)
+                self.findDepth = True
                 # self.saved += str(self.curModel)
                 # print(self.saved)
-                self.modelMode = "view"
-            #     self.findDepth = True
-            #     while not ( <= x <= ) and 
-            #     verts = calculateVerts(self.sketchPoints)
-            #     edges = calculateEdges(verts)
-            # else:
-            #     self.sketchError = True
+            else:
+                self.sketchError = True
 
 def createKeyPressed(self, keyCode, modifier):
     if keyCode == pygame.K_m:
@@ -67,15 +76,30 @@ def sketchKeyPressed(self, keyCode, modifier):
         self.tmpSketchUndo = self.sketchUndo
         self.sketchPoints = []
         self.sketchUndo = []
+    if keyCode == pygame.K_RETURN:
+        if self.sketchError == True:
+            self.sketchError = False
+        elif self.findDepth == True:
+            self.findDepth = False
+            self.createModel = True
 
 def createTimerFired(self, dt):
+    if self.createModel == True:
+        verts = calculateVerts(self.sketchPoints, self.curDepth)
+        edges = calculateEdges(verts)
+        self.curModel = Model(self.width, self.height, self._keys, 
+                                verts, edges)
+        self.createModel = False
+        self.modelMode = "view"
+        self.curDepth = 1.0
     if self.modelMode == "view" and not self.curModel == None:
         self.curModel.timerFired(dt)
 
 def createRedrawAll(self, screen):
     drawOptions(self, screen)
     self.bgColor = (178, 0, 158)
-    if self.modelMode == "sketch" and self.sketchError == False:
+    if (self.modelMode == "sketch" and self.sketchError == False and 
+        self.findDepth == False):
         for point in self.sketchPoints:
             pygame.draw.circle(screen, (0, 0, 0), point, 5)
         if len(self.sketchPoints) >= 3:
@@ -86,15 +110,43 @@ def createRedrawAll(self, screen):
 
 def drawOptions(self, screen):
     pygame.draw.rect(screen, (217, 224, 247), (0, 0, 800, 50))
-    pygame.draw.rect(screen, (255, 0, 0), (20,10,70,30)) #sketch button
-    if self.modelMode == "sketch":
+    if self.sketchError == False and self.findDepth == False:
+        pygame.draw.rect(screen, (255, 0, 0), (20,10,70,30)) #sketch button
+    if (self.modelMode == "sketch" and self.sketchError == False and 
+        self.findDepth == False):
         pygame.draw.rect(screen, (0, 255, 0), (710,10,70,30)) #finish sketch
     if self.sketchError == True:
         pygame.draw.rect(screen, (217, 224, 247), (150, 150, 500, 200))
+        font = pygame.font.SysFont("calibri", 25)
+        message = font.render("Sketch must have at least three points", True,
+                              (255, 0, 0))
+        message2 = font.render("Press enter to continue", True, (255, 0, 0))
+        screen.blit(message, (210, 220))
+        screen.blit(message2, (270, 260))
     if self.findDepth == True:
-        pygame.draw.rect(screen, (217, 224, 247), (150, 150, 500, 200))
-        pygame.draw.rect(screen, (255, 255, 255), (150, 150, 500, 200))
-        pygame.draw.rect(screen, (255, 255, 255), (150, 150, 500, 200))
-        pygame.draw.polygon(screen, (255, 255, 255), (150, 150, 500, 200))
-        pygame.draw.polygon(screen, (255, 255, 255), (150, 150, 500, 200))
+        depthDraw(self, screen)
     pygame.display.update((0, 0, 800, 50))
+
+def depthDraw(self, screen):
+    pygame.draw.rect(screen, (217, 224, 247), (150, 150, 500, 200))
+    pygame.draw.rect(screen, (255, 255, 255), (275, 220, 250, 100)) #nums
+    pygame.draw.rect(screen, (255, 255, 255), (207, 240, 50, 60)) #l step
+    pygame.draw.rect(screen, (255, 255, 255), (543, 240, 50, 60))
+    pygame.draw.rect(screen, (255, 255, 255), (164, 250, 35, 40)) #s step
+    pygame.draw.rect(screen, (255, 255, 255), (601, 250, 35, 40))
+    pygame.draw.polygon(screen, (0, 0, 255),[(217,270),(247,250),(247,290)])
+    pygame.draw.polygon(screen, (0, 0, 255),[(553,250),(553,290),(583,270)])
+    pygame.draw.polygon(screen, (0, 0, 255),[(169,270),(194,255),(194,285)])
+    pygame.draw.polygon(screen, (0, 0, 255),[(606,255),(606,285),(631,270)])
+    
+    font = pygame.font.SysFont("calibri", 40)
+    sfont = pygame.font.SysFont("calibri", 20)
+    message = font.render("Select Depth", True, (255, 0, 0))
+    message2 = sfont.render("Press enter to continue", True, (255, 0, 0))
+    screen.blit(message, (300, 170))
+    screen.blit(message2, (305, 325))
+    
+    numFont = pygame.font.SysFont("calibri", 50)
+    depth = numFont.render(str(self.curDepth), True, (0, 255, 0))
+    width = depth.get_rect().width
+    screen.blit(depth, (400 - width//2, 250))

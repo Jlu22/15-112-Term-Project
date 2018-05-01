@@ -9,7 +9,7 @@ def saveMousePressed(self, x, y):
     self.mode = "create"
     print(self.mode)
 
-def saveKeyPressed(self, x, y):
+def saveKeyPressed(self, keyCode, modifier):
     if keyCode == pygame.K_m:
         self.mode = "menu"
     if keyCode == pygame.K_h:
