@@ -23,19 +23,8 @@ def createMousePressed(self, x, y):
         self.tmpSketchUndo = []
         self.modelMode = "sketch"
     elif self.modelMode == "sketch":
-        if self.findDepth == True:
-            if ((207 <= x <= 257) and (240 <= y <= 300) and 
-                self.curDepth > 1):
-                self.curDepth -= 1
-            elif ((543 <= x <= 593) and (240 <= y <= 300) and 
-                self.curDepth < 10):
-                self.curDepth += 1
-            elif ((164 <= x <= 199) and (250 <= y <= 290) and
-                self.curDepth > 1):
-                self.curDepth -= 0.1
-            elif ((601 <= x <= 636) and (250 <= y <= 290) and 
-                self.curDepth < 10):
-                self.curDepth += 0.1
+        if self.findDepth == True: # change depth
+            changeDepth(self, x, y)
         elif (50 <= y <= 450): # add point to sketch
             self.sketchPoints.append((x,y))
             self.sketchUndo = []
@@ -47,6 +36,28 @@ def createMousePressed(self, x, y):
                 # print(self.saved)
             else:
                 self.sketchError = True
+
+def changeDepth(self, x, y):
+    if ((207 <= x <= 257) and (240 <= y <= 300) and 
+        self.curDepth > 0.1):
+        self.curDepth -= 1
+        if self.curDepth < 0.1:
+            self.curDepth += 1
+    elif ((543 <= x <= 593) and (240 <= y <= 300) and 
+        self.curDepth < 10):
+        self.curDepth += 1
+        if self.curDepth > 10:
+            self.curDepth -= 1
+    elif ((164 <= x <= 199) and (250 <= y <= 290) and
+        self.curDepth > 0.1):
+        self.curDepth -= 0.1
+        if self.curDepth < 0.1:
+            self.curDepth += 0.1
+    elif ((601 <= x <= 636) and (250 <= y <= 290) and 
+        self.curDepth < 10):
+        self.curDepth += 0.1
+        if self.curDepth > 10:
+            self.curDepth -= 0.1
 
 def createKeyPressed(self, keyCode, modifier):
     if keyCode == pygame.K_m:
@@ -146,7 +157,7 @@ def depthDraw(self, screen):
     screen.blit(message, (300, 170))
     screen.blit(message2, (305, 325))
     
-    numFont = pygame.font.SysFont("calibri", 50)
-    depth = numFont.render(str(self.curDepth), True, (0, 255, 0))
+    numFont = pygame.font.SysFont("calibri", 60)
+    depth = numFont.render("%0.1f" %self.curDepth, True, (0, 255, 0))
     width = depth.get_rect().width
-    screen.blit(depth, (400 - width//2, 250))
+    screen.blit(depth, (400 - width//2, 245))
