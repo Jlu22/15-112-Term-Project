@@ -1,6 +1,7 @@
 import pygame
 from Model import Model
 from Calculations import calculateVerts, calculateEdges
+from Camera import Camera
 
 def createInit(self):
     self.curModel = None
@@ -25,7 +26,7 @@ def createMousePressed(self, x, y):
     elif self.modelMode == "sketch":
         if self.findDepth == True: # change depth
             changeDepth(self, x, y)
-        elif (50 <= y <= 450): # add point to sketch
+        elif (50 <= y <= 450) and self.sketchError == False: # add sketch point
             self.sketchPoints.append((x,y))
             self.sketchUndo = []
         elif ((710 <= x <= 780) and (10 <= y <= 40) and self.sketchError == False
@@ -60,7 +61,8 @@ def changeDepth(self, x, y):
             self.curDepth -= 0.1
 
 def createKeyPressed(self, keyCode, modifier):
-    if keyCode == pygame.K_m:
+    if (keyCode == pygame.K_m and self.findDepth == False and 
+        self.sketchError == False):
         self.sketchPoints = []
         self.sketchUndo = []
         self.curModel = None
@@ -69,6 +71,10 @@ def createKeyPressed(self, keyCode, modifier):
         self.mode = "help"
     if self.modelMode == "sketch":
         sketchKeyPressed(self, keyCode, modifier)
+    if self.modelMode == "view" and not self.curModel == None:
+        if keyCode == pygame.K_SPACE:
+            self.curModel.camera = Camera((0, 0, -5))
+        
 
 def sketchKeyPressed(self, keyCode, modifier):
     if keyCode == pygame.K_u:
@@ -98,6 +104,8 @@ def createTimerFired(self, dt):
     if self.createModel == True:
         verts = calculateVerts(self.sketchPoints, self.curDepth)
         edges = calculateEdges(verts)
+        print(verts)
+        print(edges)
         self.curModel = Model(self.width, self.height, self._keys, 
                                 verts, edges)
         self.createModel = False
@@ -115,17 +123,27 @@ def createRedrawAll(self, screen):
             pygame.draw.circle(screen, (0, 0, 0), point, 5)
         if len(self.sketchPoints) >= 3:
             pygame.draw.polygon(screen, (0, 0, 0), self.sketchPoints, 2)
-    if self.modelMode == "view" and not self.curModel == None:
+    elif self.modelMode == "view" and not self.curModel == None:
         self.curModel.redrawAll(screen)
     pygame.display.update((0, 50, 800, 400))
 
 def drawOptions(self, screen):
     pygame.draw.rect(screen, (217, 224, 247), (0, 0, 800, 50))
+    pygame.draw.rect(screen, (217, 224, 247), (0, 450, 800, 50))
+    optionFont = pygame.font.SysFont("calibri", 20)
     if self.sketchError == False and self.findDepth == False:
         pygame.draw.rect(screen, (255, 0, 0), (20,10,70,30)) #sketch button
+        sketch = optionFont.render("Sketch", True, (0, 0, 0))
+        screen.blit(sketch, (29, 18))
     if (self.modelMode == "sketch" and self.sketchError == False and 
         self.findDepth == False):
         pygame.draw.rect(screen, (0, 255, 0), (710,10,70,30)) #finish sketch
+        finish = optionFont.render("Extrude", True, (0, 0, 0))
+        screen.blit(finish, (712, 18))
+    if self.modelMode == "view" and not self.curModel == None:
+        pygame.draw.rect(screen, (0, 0, 255), (710,460,70,30)) # save model
+        save = optionFont.render("Save", True, (0, 0, 0))
+        screen.blit(save, (725, 465))
     if self.sketchError == True:
         pygame.draw.rect(screen, (217, 224, 247), (150, 150, 500, 200))
         font = pygame.font.SysFont("calibri", 25)
@@ -137,6 +155,7 @@ def drawOptions(self, screen):
     if self.findDepth == True:
         depthDraw(self, screen)
     pygame.display.update((0, 0, 800, 50))
+    pygame.display.update((0, 450, 800, 50))
 
 def depthDraw(self, screen):
     pygame.draw.rect(screen, (217, 224, 247), (150, 150, 500, 200))

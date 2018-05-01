@@ -1,5 +1,8 @@
 # readFile and writeFile functions from 15-112 class notes
 
+import ast
+from Model import Model
+
 def readFile(path):
     with open(path, "rt") as f:
         return f.read()
@@ -9,7 +12,23 @@ def writeFile(path, contents):
         f.write(contents)
 
 def checkSaved(self):
-    self.saved = readFile("saved.txt")
+    savedTxt = readFile("saved.txt")
+    self.saved = []
+    tmpSaved = []
+    for lines in savedTxt.splitlines():
+        print("lines",lines)
+        tmpSaved.append(lines)
+        if len(tmpSaved) == 3:
+            self.saved.append(tmpSaved)
+            tmpSaved = []
+        elif lines == "":
+            tmpSaved = []
+    for line in self.saved:
+        line[1] = ast.literal_eval(line[1])
+        line[2] = ast.literal_eval(line[2])
+    print(tmpSaved)
+    print(self.saved)
+    #self.saved = readFile("saved.txt")
 
 # contentsToWrite = "This is a test!\nIt is only a test!\nWhat's new?\nin fact nothing"
 # writeFile("saved.txt", contentsToWrite)
@@ -20,3 +39,5 @@ def checkSaved(self):
 
 # note to self: write file will create the file if not already existing
 # if exists, just overwrites it
+
+[['Test', '[(-1, -1, -1), (1, -1, -1), (1, 1, -1), (-1, 1, -1), (-1, -1, 1), (1, -1, 1),(1, 1, 1), (-1, 1, 1)]', '[(0, 1), (1, 2), (2, 3), (3, 0), (4, 5), (5, 6), (6, 7), (7, 4), (0, 4), (1, 5), (2, 6), (3, 7)]'], ['Test2', '[(1, 2, 3), (1, 2, 3)]', '[(0, 1), (1, 2)]'], ['Test3', '[(2, 2, 2), (2, 2, 2)]', '[(0, 1), (2, 1)]']]

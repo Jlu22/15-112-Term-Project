@@ -34,12 +34,16 @@ def helpRedrawAll(self, screen):
         text = font.render("Too far!!", True, (0, 128, 0))
         screen.blit(text, (30, 250))
     
-    pygame.draw.rect(screen, (255, 255, 255), (730,430,60,60))
-    pygame.draw.rect(screen, (255, 255, 255), (660,430,60,60))
-    pygame.draw.polygon(screen, (0, 0, 255), [(740, 440),(780, 460),
-                        (740,480)])
-    pygame.draw.polygon(screen, (0, 0, 255), [(670, 460),(710,440),
-                        (710,480)])
+    if self.helpScreen != 4:
+        pygame.draw.rect(screen, (255, 255, 255), (730,430,60,60)) # right arrow
+        pygame.draw.polygon(screen, (0, 0, 255), [(740, 440),(780, 460),
+                            (740,480)])
+    
+    if self.helpScreen != 1:
+        pygame.draw.rect(screen, (255, 255, 255), (660,430,60,60)) # left arrow
+        pygame.draw.polygon(screen, (0, 0, 255), [(670, 460),(710,440),
+                            (710,480)])
+    
     pygame.display.flip()
     
 def helpPage1(self, screen, font):

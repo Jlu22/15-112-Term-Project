@@ -34,7 +34,4 @@ class Camera(object):
         if key(pygame.K_UP):
             self.pos[1] -= timePressed
         
-        if key(pygame.K_SPACE):
-            self.pos = [0, 0, -5]
-        
         #x, y = s*math.sin(self.rot[1]), s*math.cos(self.rot(1))

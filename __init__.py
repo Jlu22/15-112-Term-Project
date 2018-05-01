@@ -12,7 +12,6 @@ from SaveFiles import checkSaved
 class PyCAD(PygameGame):
     
     def init(self):
-        self.saved = ""
         menuInit(self)
         createInit(self)
         assemInit(self)

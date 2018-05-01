@@ -1,7 +1,7 @@
 import pygame
 
 def saveInit(self):
-    pass
+    self.saved = ""
 
 def saveMousePressed(self, x, y):
     print(self.mode)
@@ -19,7 +19,7 @@ def saveTimerFired(self, dt):
     pass
 
 def saveRedrawAll(self, screen):
-    pygame.draw.rect(screen, (0, 0, 255), (430, 280, 210, 60))
-    pygame.draw.rect(screen, (0, 255, 100), (170, 360, 210, 60))
+    self.bgColor = (217, 224, 247)
+    
     
     pygame.display.flip()
