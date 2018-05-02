@@ -19,6 +19,7 @@ def createInit(self):
     self.nameError = False
     self.curDepth = 1.0
     self.isSaved = False
+    self.displayName = None
 
 def createMousePressed(self, x, y):
     if (self.modelMode == "view" and self.sketchError == False and 
@@ -30,9 +31,10 @@ def createMousePressed(self, x, y):
         self.modelMode = "sketch" #press sketch buttom
         self.curDepth = 1.0
         self.isSaved = False
+        self.displayName = None
     elif (self.modelMode == "view" and not self.curModel == None and 
-         (710 <= x <= 780) and (460 <= y <= 490)):
-        self.findName = True
+         (710 <= x <= 780) and (460 <= y <= 490) and self.isSaved == False):
+        self.findName = True # click save
     elif self.modelMode == "sketch":
         if self.findDepth == True: # change depth
             changeDepth(self, x, y)
@@ -54,6 +56,7 @@ def createKeyPressed(self, keyCode, modifier):
         self.curModel = None
         self.mode = "menu"
         self.isSaved = False
+        self.displayName =  None
     if keyCode == pygame.K_h and self.findName == False:
         self.mode = "help"
     if self.modelMode == "sketch":
@@ -73,6 +76,7 @@ def viewKeyPressed(self, keyCode, modifier):
                 verts = calculateVerts(self.sketchPoints, self.curDepth)
                 edges = calculateEdges(verts)
                 saveNew(self, verts, edges)
+                self.displayName = self.curName
                 self.curName = "Sample"
                 self.isSaved = True
             else:
@@ -80,7 +84,7 @@ def viewKeyPressed(self, keyCode, modifier):
     if self.findName == True and self.nameError == False: # type in name
         if keyCode == pygame.K_BACKSPACE and len(self.curName) > 0:
             self.curName = self.curName[:-1]
-        elif (40 <= keyCode <= 126) and len(self.curName) < 15:
+        elif (40 <= keyCode <= 126) and len(self.curName) < 10:
             if modifier & pygame.KMOD_SHIFT:
                 self.curName += chr(keyCode).upper()
             else:
@@ -145,11 +149,12 @@ def createRedrawAll(self, screen):
         if self.nameError == True:
             pygame.draw.rect(screen, (217, 224, 247), (150, 150, 500, 200))
             font = pygame.font.SysFont("calibri", 25)
-            message = font.render("Name must be between 1 and 15 characters", 
+            message = font.render("Name must be between 1 and 10 characters", 
                                     True,(255, 0, 0))
             message2 = font.render("Press enter to continue", True, (255, 0, 0))
             screen.blit(message, (175, 220))
             screen.blit(message2, (270, 260))
         else:
             nameDraw(self, screen)
+        
     pygame.display.update((0, 50, 800, 400))

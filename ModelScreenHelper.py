@@ -53,7 +53,7 @@ def nameDraw(self,screen):
     lfont = pygame.font.SysFont("calibri", 40)
     sfont = pygame.font.SysFont("calibri", 15)
     title = lfont.render("Name your creation!", True, (0, 0, 0))
-    message = sfont.render("Keep it within 15 characters", True, (0, 0, 0))
+    message = sfont.render("Keep it within 10 characters", True, (0, 0, 0))
     message2 = sfont.render("Press enter to continue", True, (0, 0, 0))
     screen.blit(title, (400 - title.get_rect().width // 2, 170))
     screen.blit(message, (400 - message.get_rect().width // 2, 315))
@@ -82,5 +82,9 @@ def drawOptions(self, screen):
         pygame.draw.rect(screen, (0, 0, 255), (710,460,70,30)) # save model
         save = optionFont.render("Save", True, (0, 0, 0))
         screen.blit(save, (725, 465))
+    if not self.displayName == None: # displays name of saved model
+        font = pygame.font.SysFont("calibri", 40)
+        name = font.render(self.displayName, True, (0, 0, 0))
+        screen.blit(name, (400 - name.get_rect().width // 2, 10))
     pygame.display.update((0, 0, 800, 50))
     pygame.display.update((0, 450, 800, 50))

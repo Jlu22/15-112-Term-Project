@@ -49,14 +49,16 @@ def saveMousePressed(self, x, y):
             self.mode = "create"
             self.savePage = 1
             self.isSaved = True
+            self.displayName = self.saved[self.curSave][0]
         elif (690 <= x <= 760) and (440 <= y <= 470): # delete model
-            print("cur", self.curSave, "len", len(self.saved))
             length = len(self.saved) - 1
             if (self.curSave == length and length%6 == 0 and self.curSave != 0):
                 self.savePage -= 1
-            self.saved.pop(self.curSave)
-            self.curSave = -1
-            save(self)
+            
+            if self.curSave != 0:
+                self.saved.pop(self.curSave)
+                self.curSave = -1
+                save(self)
     
     if boxNum != -1:
         modelIndex = boxNum + (self.savePage - 1) * 6
@@ -86,7 +88,11 @@ def saveRedrawAll(self, screen):
     calculateMax(self)
     self.bgColor = (217, 224, 247)
     
-    if self.savePage != self.maxPages:
+    lfont = pygame.font.SysFont("calibri", 50) # save page title
+    saveTitle = lfont.render("Saved Models", True, (0, 0, 0))
+    screen.blit(saveTitle, (400 - saveTitle.get_rect().width // 2, 30))
+    
+    if self.savePage != self.maxPages: # page arrows
         pygame.draw.polygon(screen, (200, 0, 0),[(725,225),(775,250),(725,275)])
     if self.savePage != 1:
         pygame.draw.polygon(screen, (200, 0, 0), [(25,250),(75,225),(75,275)])
@@ -102,13 +108,15 @@ def saveRedrawAll(self, screen):
     
     if self.curSave != -1:
         font = pygame.font.SysFont("calibri", 20)
-        pygame.draw.rect(screen, (200, 0, 0), (690,440,70,30))
-        pygame.draw.rect(screen, (200, 0, 0), (40,440,70,30))
         
+        pygame.draw.rect(screen, (200, 0, 0), (40,440,70,30))
         view = font.render("View", True, (255, 255, 255))
         screen.blit(view, (55, 447))
-        delete = font.render("Delete", True, (255, 255, 255))
-        screen.blit(delete, (698, 447))
+        
+        if self.curSave != 0:
+            pygame.draw.rect(screen, (200, 0, 0), (690,440,70,30))
+            delete = font.render("Delete", True, (255, 255, 255))
+            screen.blit(delete, (698, 447))
     
     pygame.display.flip()
 
