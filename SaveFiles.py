@@ -16,7 +16,7 @@ def checkSaved(self):
     self.saved = []
     tmpSaved = []
     for lines in savedTxt.splitlines():
-        print("lines",lines)
+        #print("lines",lines)
         tmpSaved.append(lines)
         if len(tmpSaved) == 3:
             self.saved.append(tmpSaved)
@@ -26,8 +26,8 @@ def checkSaved(self):
     for line in self.saved:
         line[1] = ast.literal_eval(line[1])
         line[2] = ast.literal_eval(line[2])
-    print(tmpSaved)
-    print(self.saved)
+    # print(tmpSaved)
+    # print(self.saved)
     #self.saved = readFile("saved.txt")
 
 def saveNew(self, verts, edges):
@@ -42,13 +42,3 @@ def save(self):
         edges = model[2]
         saveStr += ("\n"+ str(name)+"\n" +str(verts) + "\n" + str(edges) + "\n")
     writeFile("saved.txt", saveStr)
-
-# contentsToWrite = "This is a test!\nIt is only a test!\nWhat's new?\nin fact nothing"
-# writeFile("saved.txt", contentsToWrite)
-
-# contentsRead = readFile("saved.txt")
-# print(contentsRead)
-# assert(contentsRead == "")
-
-# note to self: write file will create the file if not already existing
-# if exists, just overwrites it

@@ -7,7 +7,6 @@ from ModelScreen import *
 from AssemScreen import *
 from HelpScreen import *
 from SaveScreen import *
-from SaveFiles import checkSaved
   
 class PyCAD(PygameGame):
     
@@ -17,7 +16,6 @@ class PyCAD(PygameGame):
         assemInit(self)
         helpInit(self)
         saveInit(self)
-        checkSaved(self)
     
     def mousePressed(self, x, y):
         print(x, y)

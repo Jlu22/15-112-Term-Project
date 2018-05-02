@@ -27,6 +27,7 @@ def createMousePressed(self, x, y):
         self.tmpSketchPoints = []
         self.tmpSketchUndo = []
         self.modelMode = "sketch"
+        self.curDepth = 1.0
     elif (self.modelMode == "view" and not self.curModel == None and 
          (710 <= x <= 780) and (460 <= y <= 490)):
         self.findName = True
@@ -109,7 +110,6 @@ def sketchKeyPressed(self, keyCode, modifier):
             self.curModel = Model(self.width, self.height, self._keys, 
                                     verts, edges)
             self.modelMode = "view"
-            self.curDepth = 1.0
 
 def createTimerFired(self, dt):
     if self.modelMode == "view" and not self.curModel == None:
