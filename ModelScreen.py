@@ -18,6 +18,7 @@ def createInit(self):
     self.curName = "Sample"
     self.nameError = False
     self.curDepth = 1.0
+    self.isSaved = False
 
 def createMousePressed(self, x, y):
     if (self.modelMode == "view" and self.sketchError == False and 
@@ -26,12 +27,12 @@ def createMousePressed(self, x, y):
         self.sketchUndo = []
         self.tmpSketchPoints = []
         self.tmpSketchUndo = []
-        self.modelMode = "sketch"
+        self.modelMode = "sketch" #press sketch buttom
         self.curDepth = 1.0
+        self.isSaved = False
     elif (self.modelMode == "view" and not self.curModel == None and 
          (710 <= x <= 780) and (460 <= y <= 490)):
         self.findName = True
-        ###
     elif self.modelMode == "sketch":
         if self.findDepth == True: # change depth
             changeDepth(self, x, y)
@@ -52,6 +53,7 @@ def createKeyPressed(self, keyCode, modifier):
         self.sketchUndo = []
         self.curModel = None
         self.mode = "menu"
+        self.isSaved = False
     if keyCode == pygame.K_h and self.findName == False:
         self.mode = "help"
     if self.modelMode == "sketch":
@@ -72,6 +74,7 @@ def viewKeyPressed(self, keyCode, modifier):
                 edges = calculateEdges(verts)
                 saveNew(self, verts, edges)
                 self.curName = "Sample"
+                self.isSaved = True
             else:
                 self.nameError = True
     if self.findName == True and self.nameError == False: # type in name
@@ -142,8 +145,8 @@ def createRedrawAll(self, screen):
         if self.nameError == True:
             pygame.draw.rect(screen, (217, 224, 247), (150, 150, 500, 200))
             font = pygame.font.SysFont("calibri", 25)
-            message = font.render("Name must be between 1 and 15 characters", True,
-                                (255, 0, 0))
+            message = font.render("Name must be between 1 and 15 characters", 
+                                    True,(255, 0, 0))
             message2 = font.render("Press enter to continue", True, (255, 0, 0))
             screen.blit(message, (175, 220))
             screen.blit(message2, (270, 260))

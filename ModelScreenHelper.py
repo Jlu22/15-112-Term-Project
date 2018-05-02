@@ -77,7 +77,8 @@ def drawOptions(self, screen):
         pygame.draw.rect(screen, (0, 255, 0), (710,10,70,30)) #finish sketch
         finish = optionFont.render("Extrude", True, (0, 0, 0))
         screen.blit(finish, (712, 18))
-    if self.modelMode == "view" and not self.curModel == None:
+    if (self.modelMode == "view" and not self.curModel == None and 
+        self.isSaved == False and self.findName == False):
         pygame.draw.rect(screen, (0, 0, 255), (710,460,70,30)) # save model
         save = optionFont.render("Save", True, (0, 0, 0))
         screen.blit(save, (725, 465))
