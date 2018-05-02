@@ -3,6 +3,7 @@ from Model import Model
 from Calculations import calculateVerts, calculateEdges
 from Camera import Camera
 from ModelScreenHelper import *
+from SaveFiles import saveNew
 
 def createInit(self):
     self.curModel = None
@@ -13,7 +14,6 @@ def createInit(self):
     self.tmpSketchUndo = []
     self.sketchError = False
     self.findDepth = False
-    self.createModel = False
     self.findName = False
     self.curName = "Sample"
     self.nameError = False
@@ -67,9 +67,13 @@ def viewKeyPressed(self, keyCode, modifier):
         elif self.findName == True:
             if 1 <= len(self.curName) <= 15:
                 self.findName = False
+                verts = calculateVerts(self.sketchPoints, self.curDepth)
+                edges = calculateEdges(verts)
+                saveNew(self, verts, edges)
+                self.curName = "Sample"
             else:
                 self.nameError = True
-    if self.findName == True and self.nameError == False:
+    if self.findName == True and self.nameError == False: # type in name
         if keyCode == pygame.K_BACKSPACE and len(self.curName) > 0:
             self.curName = self.curName[:-1]
         elif (40 <= keyCode <= 126) and len(self.curName) < 15:
@@ -100,19 +104,14 @@ def sketchKeyPressed(self, keyCode, modifier):
             self.sketchError = False
         if self.findDepth == True:
             self.findDepth = False
-            self.createModel = True
+            verts = calculateVerts(self.sketchPoints, self.curDepth)
+            edges = calculateEdges(verts)
+            self.curModel = Model(self.width, self.height, self._keys, 
+                                    verts, edges)
+            self.modelMode = "view"
+            self.curDepth = 1.0
 
 def createTimerFired(self, dt):
-    if self.createModel == True:
-        verts = calculateVerts(self.sketchPoints, self.curDepth)
-        edges = calculateEdges(verts)
-        # print(verts)
-        # print(edges)
-        self.curModel = Model(self.width, self.height, self._keys, 
-                                verts, edges)
-        self.createModel = False
-        self.modelMode = "view"
-        self.curDepth = 1.0
     if self.modelMode == "view" and not self.curModel == None:
         self.curModel.timerFired(dt)
 

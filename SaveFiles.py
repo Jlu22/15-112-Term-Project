@@ -30,6 +30,19 @@ def checkSaved(self):
     print(self.saved)
     #self.saved = readFile("saved.txt")
 
+def saveNew(self, verts, edges):
+    self.saved.append([self.curName, verts, edges])
+    save(self)
+
+def save(self):
+    saveStr = ""
+    for model in self.saved:
+        name = model[0]
+        verts = model[1]
+        edges = model[2]
+        saveStr += ("\n"+ str(name)+"\n" +str(verts) + "\n" + str(edges) + "\n")
+    writeFile("saved.txt", saveStr)
+
 # contentsToWrite = "This is a test!\nIt is only a test!\nWhat's new?\nin fact nothing"
 # writeFile("saved.txt", contentsToWrite)
 

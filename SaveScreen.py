@@ -1,7 +1,7 @@
 import pygame
 
 def saveInit(self):
-    self.saved = ""
+    self.saved = []
     self.curSave = -1
     self.savePage = 1
 
