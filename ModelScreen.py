@@ -123,21 +123,20 @@ def createTimerFired(self, dt):
         self.curModel.timerFired(dt)
 
 def createRedrawAll(self, screen):
-    #print("name", self.findName)
     drawOptions(self, screen)
     self.bgColor = (178, 0, 158)
     if (self.modelMode == "sketch" and self.sketchError == False and 
-        self.findDepth == False):
+        self.findDepth == False): # sketch points
         for point in self.sketchPoints:
             pygame.draw.circle(screen, (0, 0, 0), point, 5)
         if len(self.sketchPoints) >= 3:
             pygame.draw.polygon(screen, (0, 0, 0), self.sketchPoints, 2)
     elif (self.modelMode == "view" and not self.curModel == None and 
-          self.findName == False):
+          self.findName == False): # draw model
         self.curModel.redrawAll(screen)
-    elif self.findDepth == True:
+    elif self.findDepth == True: # find depth
         depthDraw(self, screen)
-    elif self.sketchError == True:
+    elif self.sketchError == True: # sketch error
         pygame.draw.rect(screen, (217, 224, 247), (150, 150, 500, 200))
         font = pygame.font.SysFont("calibri", 25)
         message = font.render("Sketch must have at least three points", True,
@@ -145,7 +144,7 @@ def createRedrawAll(self, screen):
         message2 = font.render("Press enter to continue", True, (255, 0, 0))
         screen.blit(message, (210, 220))
         screen.blit(message2, (270, 260))
-    elif self.findName == True:
+    elif self.findName == True: # find name
         if self.nameError == True:
             pygame.draw.rect(screen, (217, 224, 247), (150, 150, 500, 200))
             font = pygame.font.SysFont("calibri", 25)

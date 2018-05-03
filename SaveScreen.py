@@ -9,7 +9,6 @@ def saveInit(self):
     self.savePage = 1
     self.maxPages = 2
     calculateMax(self)
-    print("page",self.maxPages)
 
 def calculateMax(self):
     numModels = len(self.saved)
@@ -44,7 +43,8 @@ def saveMousePressed(self, x, y):
         if (40 <= x <= 110) and (440 <= y <= 470): #view model
             verts = self.saved[self.curSave][1]
             edges = self.saved[self.curSave][2]
-            self.curModel = Model(self.width, self.height, self._keys, verts, edges)
+            self.curModel = Model(self.width, self.height, self._keys, 
+                                  verts, edges)
             self.modelMode = "view"
             self.mode = "create"
             self.savePage = 1
@@ -98,12 +98,9 @@ def saveRedrawAll(self, screen):
         pygame.draw.polygon(screen, (200, 0, 0), [(25,250),(75,225),(75,275)])
     
     for num in range(len(self.saved)):
-        #print(self.saved[num][0], num)
         start = (self.savePage - 1) * 6
         if start <= num <= start + 5:
             name = self.saved[num][0]
-            # verts = self.saved[num][1]
-            # edges = self.saved[num][2]
             drawBox(self, screen, num, name)
     
     if self.curSave != -1:

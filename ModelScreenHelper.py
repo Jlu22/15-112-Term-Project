@@ -1,34 +1,30 @@
 import pygame
 
-def changeDepth(self, x, y):
-    if ((207 <= x <= 257) and (240 <= y <= 300) and 
+def changeDepth(self, x, y): # mousepress buttons to change depth
+    if ((217 <= x <= 247) and ((-2/3)*x+415 <= y <= (2/3)*x+125) and 
         self.curDepth > 0.1):
         self.curDepth -= 1
         if self.curDepth < 0.1:
             self.curDepth += 1
-    elif ((543 <= x <= 593) and (240 <= y <= 300) and 
+    elif ((553 <= x <= 583) and ((2/3)*x-119 <= y <= (-2/3)*x+659) and 
         self.curDepth < 10):
         self.curDepth += 1
         if self.curDepth > 10:
             self.curDepth -= 1
-    elif ((164 <= x <= 199) and (250 <= y <= 290) and
+    elif ((169 <= x <= 194) and ((-2/3)*x+384 <= y <= (2/3)*x+156) and
         self.curDepth > 0.1):
         self.curDepth -= 0.1
         if self.curDepth < 0.1:
             self.curDepth += 0.1
-    elif ((601 <= x <= 636) and (250 <= y <= 290) and 
+    elif ((606 <= x <= 631) and ((2/3)*x-149 <= y <= (-2/3)*x+689) and 
         self.curDepth < 10):
         self.curDepth += 0.1
         if self.curDepth > 10:
             self.curDepth -= 0.1
 
-def depthDraw(self, screen):
+def depthDraw(self, screen): # depth pop-up
     pygame.draw.rect(screen, (217, 224, 247), (150, 150, 500, 200))
     pygame.draw.rect(screen, (255, 255, 255), (275, 220, 250, 100)) #nums
-    pygame.draw.rect(screen, (255, 255, 255), (207, 240, 50, 60)) #l step
-    pygame.draw.rect(screen, (255, 255, 255), (543, 240, 50, 60))
-    pygame.draw.rect(screen, (255, 255, 255), (164, 250, 35, 40)) #s step
-    pygame.draw.rect(screen, (255, 255, 255), (601, 250, 35, 40))
     pygame.draw.polygon(screen, (0, 0, 255),[(217,270),(247,250),(247,290)])
     pygame.draw.polygon(screen, (0, 0, 255),[(553,250),(553,290),(583,270)])
     pygame.draw.polygon(screen, (0, 0, 255),[(169,270),(194,255),(194,285)])
@@ -46,7 +42,7 @@ def depthDraw(self, screen):
     width = depth.get_rect().width
     screen.blit(depth, (400 - width//2, 245))
 
-def nameDraw(self,screen):
+def nameDraw(self,screen): # name pop-up
     pygame.draw.rect(screen, (217, 224, 247), (150, 150, 500, 200))
     pygame.draw.rect(screen, (255, 255, 255), (200, 220, 400, 90))
     
