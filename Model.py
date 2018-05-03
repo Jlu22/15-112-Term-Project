@@ -17,7 +17,6 @@ class Model (object):
         self.tmpVerts = []
         for point in self.verts:
             self.tmpVerts.append(list(point))
-        print(self.tmpVerts)
         self.depth = self.verts[0][2] * 2
         self.edges = edges
         self.camera = Camera(self.depth, (0, 0, -8))
@@ -36,17 +35,13 @@ class Model (object):
     
     def update(self, key):
         if key(pygame.K_d):
-            self.xzRadians -= math.pi / 128
-            print("d", self.xyRadians)
+            self.xzRadians -= math.pi / 128 # translational motion
         if key(pygame.K_a):
             self.xzRadians += math.pi / 128
-            print("a", self.xyRadians)
         if key(pygame.K_s):
-            self.xyRadians -= math.pi / 128
-            print("s", self.xzRadians)
+            self.xyRadians -= math.pi / 128 # rotational motion
         if key(pygame.K_w):
             self.xyRadians += math.pi / 128
-            print("w", self.xzRadians)
     
     def timerFired(self, dt):
         self.camera.update(dt, self.isKeyPressed)

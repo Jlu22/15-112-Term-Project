@@ -18,7 +18,6 @@ class PyCAD(PygameGame):
         saveInit(self)
     
     def mousePressed(self, x, y):
-        print(x, y)
         if self.mode == "menu":
             menuMousePressed(self, x, y)
         elif self.mode == "create":
