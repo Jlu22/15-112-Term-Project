@@ -1,3 +1,7 @@
+# File contains functions used to convert text from saved.txt to models
+# Also contains functions to save models into the saved.txt file
+
+
 # readFile and writeFile functions from 15-112 class notes
 
 import ast
@@ -16,7 +20,6 @@ def checkSaved(self):
     self.saved = []
     tmpSaved = []
     for lines in savedTxt.splitlines():
-        #print("lines",lines)
         tmpSaved.append(lines)
         if len(tmpSaved) == 3:
             self.saved.append(tmpSaved)
@@ -26,9 +29,6 @@ def checkSaved(self):
     for line in self.saved:
         line[1] = ast.literal_eval(line[1])
         line[2] = ast.literal_eval(line[2])
-    # print(tmpSaved)
-    # print(self.saved)
-    #self.saved = readFile("saved.txt")
 
 def saveNew(self, verts, edges):
     self.saved.append([self.curName, verts, edges])

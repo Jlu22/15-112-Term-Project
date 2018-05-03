@@ -1,3 +1,18 @@
+# This file contains most of the fuctions used to control the Model mode.
+# There were many functions and the file became long, so some helpers were 
+# moved to ModelScreenHelper.py
+# Click on three different buttons depending on the status of the mode
+# Two internal modes: view and sketch
+# View mode can be used to look at newly made models or models loaded from save
+# Sketch mode can be used to make unique models
+# In sketch mode, points can be undone, redone, and cleared
+
+# Two different pop-up windows: depth of model and name of model
+# Flags two errors: when sketch does not have enough points and when name 
+# does not have enough characters
+
+# Name of model is displayed at top of window when saved
+
 import pygame
 from Model import Model
 from Calculations import calculateVerts, calculateEdges
@@ -66,9 +81,7 @@ def createKeyPressed(self, keyCode, modifier):
         viewKeyPressed(self, keyCode, modifier)
 
 def viewKeyPressed(self, keyCode, modifier):
-    if not self.curModel == None and keyCode == pygame.K_SPACE:
-        self.curModel.camera = Camera((0, 0, -5))
-    elif keyCode == pygame.K_RETURN:
+    if keyCode == pygame.K_RETURN:
         if self.nameError == True:
             self.nameError = False
         elif self.findName == True:
@@ -86,7 +99,7 @@ def viewKeyPressed(self, keyCode, modifier):
         if keyCode == pygame.K_BACKSPACE and len(self.curName) > 0:
             self.curName = self.curName[:-1]
         elif (40 <= keyCode <= 126) and len(self.curName) < 10:
-            if modifier & pygame.KMOD_SHIFT:
+            if modifier & pygame.KMOD_SHIFT: #capital letters
                 self.curName += chr(keyCode).upper()
             else:
                 self.curName += chr(keyCode)
@@ -120,8 +133,10 @@ def sketchKeyPressed(self, keyCode, modifier):
             self.modelMode = "view"
 
 def createTimerFired(self, dt):
-    if self.modelMode == "view" and not self.curModel == None:
+    if (self.modelMode == "view" and self.findName == False and 
+        not self.curModel == None):
         self.curModel.timerFired(dt)
+        self.curModel.update(self.curModel.isKeyPressed)
 
 def createRedrawAll(self, screen):
     drawOptions(self, screen)

@@ -1,3 +1,11 @@
+# File contains functions used for the Save mode
+# Calculates number of save pages based of the number of saved models
+# number of pages can adapt as models are added or deleted
+
+# When a saved model is clicked, option to view or delete
+# First cube model cannot be deleted, as it is the default sample
+
+
 import pygame
 from SaveFiles import checkSaved, save
 from Model import Model

@@ -1,3 +1,6 @@
+# File contains functions used for the main menu
+# Button presses (keypressed) and text displays
+
 import pygame
 
 def menuInit(self):

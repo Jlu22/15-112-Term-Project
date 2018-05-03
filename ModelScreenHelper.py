@@ -1,3 +1,6 @@
+# Helper file for ModelScreen.py
+# Contains functions for pop-ups and buttons for Model mode
+
 import pygame
 
 def changeDepth(self, x, y): # mousepress buttons to change depth

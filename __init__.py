@@ -1,4 +1,4 @@
-# file that initiates whole project
+# File that initiates whole project
 
 import pygame
 from pygamegame import PygameGame

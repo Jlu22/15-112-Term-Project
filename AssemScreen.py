@@ -1,3 +1,8 @@
+# This file contains all of the functions used in the Assemble mode.
+# "Import" button and preview of models being inputted is controlled here
+# When import is pressed, gives preview of saved models, which can be toggled
+# through before choosing which to put into assembly
+
 import pygame
 from Model import Model
 
@@ -8,8 +13,18 @@ def assemInit(self):
     self.assemMode = "view"
 
 def assemMousePressed(self, x, y):
-    if (20 <= x <= 90) and (10 <= y <= 40):
+    if (20 <= x <= 90) and (10 <= y <= 40): # click import button
         self.assemMode = "import"
+        verts = self.saved[self.tmpModel][1]
+        edges = self.saved[self.tmpModel][2]
+        self.preview = Model(self.width, self.height, self._keys, verts, edges)
+    elif self.assemMode == "import": # change imported model
+        if ((45 <= x <= 75) and (-0.5*x+497 <= y <= 0.5*x+453) and 
+             self.tmpModel > 0):
+            self.tmpModel -= 1
+        elif ((725 <= x <= 755) and (0.5*x+97 <= y <= -0.5*x+853) and
+               self.tmpModel < len(self.saved) -1):
+            self.tmpModel += 1
         verts = self.saved[self.tmpModel][1]
         edges = self.saved[self.tmpModel][2]
         self.preview = Model(self.width, self.height, self._keys, verts, edges)
@@ -45,8 +60,6 @@ def assemTimerFired(self, dt):
     if self.assemMode == "view":
         for model in self.assemList:
             model.timerFired(dt)
-    # elif self.assemMode == "import" and not self.preview == None:
-    #     self.preview.timerFired(dt)
 
 def assemRedrawAll(self, screen):
     assemOptions(self, screen)
@@ -54,7 +67,7 @@ def assemRedrawAll(self, screen):
     for model in self.assemList:
         model.redrawAll(screen)
     
-    if self.assemMode == "import": #####
+    if self.assemMode == "import":
        self.preview.redrawAll(screen)
     
     pygame.display.update((0, 50, 800, 400)) # updates mid screen

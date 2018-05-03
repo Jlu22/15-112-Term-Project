@@ -1,3 +1,8 @@
+# Model class
+# This file contains the calculations for a "3D" like image from a set of given
+# verticies and edges from the model mode. Each model has a camera.
+# This file also controls rotation of the model.
+
 import pygame
 import math
 from pygamegame import PygameGame
@@ -5,11 +10,6 @@ from Camera import Camera
 
 # Model rotation and view algorithms inspired by:
 # https://www.youtube.com/watch?v=g4E9iq0BixA
-
-# almostEqual function from 15-112 website
-def almostEqual(d1, d2):
-    epsilon = 10**-5
-    return (abs(d2 - d1) < epsilon)
 
 class Model (object):
     def __init__(self, width, height, keys, verts, edges):
@@ -29,33 +29,30 @@ class Model (object):
         self.cy = self.height//2
         self.keys = keys
     
-    def __eq__(self, object):
-        return (isinstance(object, Model) and self.verts == object.verts and
-                self.edges == object.edges)
-    
     @staticmethod
     def rotation(pos, rad):
         x, y = pos
         return x*math.cos(rad)-y*math.sin(rad), y*math.cos(rad)+x*math.sin(rad)
     
-    def update(self, dt, key):
-        timePressed = dt/200
+    def update(self, key):
         if key(pygame.K_d):
-            self.xyRadians += math.pi / 32
+            self.xzRadians -= math.pi / 128
             print("d", self.xyRadians)
         if key(pygame.K_a):
-            self.xyRadians -= math.pi / 32
+            self.xzRadians += math.pi / 128
             print("a", self.xyRadians)
         if key(pygame.K_s):
-            self.xzRadians += math.pi / 32
+            self.xyRadians -= math.pi / 128
             print("s", self.xzRadians)
         if key(pygame.K_w):
-            self.xzRadians -= math.pi / 32
+            self.xyRadians += math.pi / 128
             print("w", self.xzRadians)
     
     def timerFired(self, dt):
         self.camera.update(dt, self.isKeyPressed)
-        self.update(dt, self.isKeyPressed)
+    
+    def rotate(self):
+        self.update(self.isKeyPressed)
     
     def isKeyPressed(self, key):
         ''' return whether a specific key is being held '''
@@ -71,9 +68,6 @@ class Model (object):
                 
                 x, y = Model.rotation((x,y), self.xyRadians)
                 x, z = Model.rotation((x,z), self.xzRadians)
-                
-                # x, z = Camera.rotation((x, z), self.camera.rot[1])
-                # y, x = Camera.rotation((y, x), self.camera.rot[0])
                 
                 scale = max(self.width, self.height)//2
                 # this scale attempts to maintain good proportions of the part

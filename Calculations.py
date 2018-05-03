@@ -1,3 +1,7 @@
+# File contains functions used to convert a new sketch to a model
+# Calculates a center of rotation, vertices, and edges of new model
+# Helper file of ModelScreen
+
 import math
 
 def center(coord1, coord2):

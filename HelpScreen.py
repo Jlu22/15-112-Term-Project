@@ -1,12 +1,17 @@
+# File contains functions used for the help screen
+# Arrow keys and text display
+
 import pygame
 
 def helpInit(self):
     self.helpScreen = 1
 
 def helpMousePressed(self, x, y):
-    if (730 <= x <= 790) and (430 <= y <= 490) and self.helpScreen < 5:
+    if ((740 <= x <= 780) and (0.5*x + 70 <= y <= -0.5*x + 850) and 
+         self.helpScreen < 5):
         self.helpScreen += 1
-    elif (660 <= x <= 720) and (430 <= y <= 490) and self.helpScreen > 1:
+    elif ((670 <= x <= 710) and (-0.5*x + 795 <= y <= 0.5*x + 125) and 
+           self.helpScreen > 1):
         self.helpScreen -= 1
 
 def helpKeyPressed(self, keyCode, modifier):
@@ -32,18 +37,13 @@ def helpRedrawAll(self, screen):
         helpPage4(self, screen)
     elif self.helpScreen == 5:
         helpPage5(self, screen)
-    else:
-        text = font.render("Too far!!", True, (0, 128, 0))
-        screen.blit(text, (30, 250))
     
-    if self.helpScreen != 5:
-        pygame.draw.rect(screen, (255, 255, 255), (730,430,60,60)) # right arrow
-        pygame.draw.polygon(screen, (0, 0, 255), [(740, 440),(780, 460),
+    if self.helpScreen != 5: # right arrow
+        pygame.draw.polygon(screen, (200, 0, 0), [(740, 440),(780, 460),
                             (740,480)])
     
-    if self.helpScreen != 1:
-        pygame.draw.rect(screen, (255, 255, 255), (660,430,60,60)) # left arrow
-        pygame.draw.polygon(screen, (0, 0, 255), [(670, 460),(710,440),
+    if self.helpScreen != 1: # left arrow
+        pygame.draw.polygon(screen, (200, 0, 0), [(670, 460),(710,440),
                             (710,480)])
     
     pygame.display.flip()
@@ -105,7 +105,7 @@ def helpPage3(self, screen):
     
     page3Text1 = "After you enter the depth, you should see your new model!"
     page3Text9 = "Move it around using the arrow keys"
-    page3Text10 = "If it goes off the screen, press space to center it again"
+    page3Text10 = "The 'wasd' keys can also be used for additional motion"
     page3Text2 = "If you want to save it, select the bottom right button 'save'"
     page3Text3 = "You will be prompted to input a name for your model"
     page3Text4 = "Go ahead and type it in! Keep it within 10 characters."
