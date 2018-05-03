@@ -32,10 +32,10 @@ def menuRedrawAll(self, screen):
     saved = sFont.render("Saved", True, (0, 0, 0))
     
     self.bgColor = (217, 224, 247)
-    pygame.draw.rect(screen, (255, 0, 0), (170, 280, 210, 60))
-    pygame.draw.rect(screen, (0, 0, 255), (430, 280, 210, 60))
-    pygame.draw.rect(screen, (0, 255, 100), (170, 360, 210, 60))
-    pygame.draw.rect(screen, (100, 100, 0), (430, 360, 210, 60))
+    pygame.draw.rect(screen, (200, 0, 0), (170, 280, 210, 60))
+    pygame.draw.rect(screen, (200, 0, 0), (430, 280, 210, 60))
+    pygame.draw.rect(screen, (200, 0, 0), (170, 360, 210, 60))
+    pygame.draw.rect(screen, (200, 0, 0), (430, 360, 210, 60))
     
     screen.blit(title, (self.width//2 - 137, self.height//4))
     screen.blit(create, (225, 295))

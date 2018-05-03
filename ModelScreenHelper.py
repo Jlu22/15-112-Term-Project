@@ -68,12 +68,12 @@ def drawOptions(self, screen):
     pygame.draw.rect(screen, (217, 224, 247), (0, 450, 800, 50))
     optionFont = pygame.font.SysFont("calibri", 20)
     if self.sketchError == False and self.findDepth == False:
-        pygame.draw.rect(screen, (255, 0, 0), (20,10,70,30)) #sketch button
+        pygame.draw.rect(screen, (200, 0, 0), (20,10,70,30)) #sketch button
         sketch = optionFont.render("Sketch", True, (0, 0, 0))
         screen.blit(sketch, (29, 18))
     if (self.modelMode == "sketch" and self.sketchError == False and 
         self.findDepth == False):
-        pygame.draw.rect(screen, (0, 255, 0), (710,10,70,30)) #finish sketch
+        pygame.draw.rect(screen, (0, 200, 0), (710,10,70,30)) #finish sketch
         finish = optionFont.render("Extrude", True, (0, 0, 0))
         screen.blit(finish, (712, 18))
     if (self.modelMode == "view" and not self.curModel == None and 

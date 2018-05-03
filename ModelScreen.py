@@ -140,7 +140,7 @@ def createTimerFired(self, dt):
 
 def createRedrawAll(self, screen):
     drawOptions(self, screen)
-    self.bgColor = (178, 0, 158)
+    self.bgColor = (245,245,220)
     if (self.modelMode == "sketch" and self.sketchError == False and 
         self.findDepth == False): # sketch points
         for point in self.sketchPoints:

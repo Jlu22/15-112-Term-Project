@@ -63,7 +63,7 @@ def assemTimerFired(self, dt):
 
 def assemRedrawAll(self, screen):
     assemOptions(self, screen)
-    self.bgColor = (178, 170, 158)
+    self.bgColor = (245,245,220)
     for model in self.assemList:
         model.redrawAll(screen)
     

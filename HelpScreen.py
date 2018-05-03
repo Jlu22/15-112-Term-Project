@@ -1,5 +1,6 @@
 # File contains functions used for the help screen
 # Arrow keys and text display
+# Opening help (press 'h') on different modes will open to appropriate page
 
 import pygame
 
