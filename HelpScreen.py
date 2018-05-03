@@ -2,10 +2,14 @@
 # Arrow keys and text display
 # Opening help (press 'h') on different modes will open to appropriate page
 
+# If opened from another mode, pressing 'h' again will return you to the 
+# mode you were previously using, without deleting your data
+
 import pygame
 
 def helpInit(self):
     self.helpScreen = 1
+    self.lastScreen = None
 
 def helpMousePressed(self, x, y):
     if ((740 <= x <= 780) and (0.5*x + 70 <= y <= -0.5*x + 850) and 
@@ -23,6 +27,10 @@ def helpKeyPressed(self, keyCode, modifier):
     if keyCode == pygame.K_m:
         self.helpScreen = 1
         self.mode = "menu"
+        self.lastScreen = None
+    if keyCode == pygame.K_h and not self.lastScreen == None:
+        self.mode = self.lastScreen
+        self.lastScreen = None
 
 def helpRedrawAll(self, screen):
     self.bgColor = (217, 224, 247)

@@ -85,6 +85,7 @@ def saveKeyPressed(self, keyCode, modifier):
     if keyCode == pygame.K_h:
         self.mode = "help"
         self.helpScreen = 5
+        self.lastScreen = "save"
     if keyCode == pygame.K_RIGHT and self.savePage < self.maxPages:
         self.savePage += 1
     if keyCode == pygame.K_LEFT and self.savePage > 1:

@@ -75,6 +75,7 @@ def createKeyPressed(self, keyCode, modifier):
     if keyCode == pygame.K_h and self.findName == False:
         self.mode = "help"
         self.helpScreen = 2
+        self.lastScreen = "create"
     if self.modelMode == "sketch":
         sketchKeyPressed(self, keyCode, modifier)
     if self.modelMode == "view":

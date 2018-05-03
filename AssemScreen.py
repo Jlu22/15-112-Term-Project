@@ -39,6 +39,7 @@ def assemKeyPressed(self, keyCode, modifier):
     if keyCode == pygame.K_h:
         self.mode = "help"
         self.helpScreen = 4
+        self.lastScreen = "assem"
     if keyCode == pygame.K_u and len(self.assemList) > 0:
         self.assemList.pop()
         
