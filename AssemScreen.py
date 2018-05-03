@@ -3,7 +3,6 @@ from Model import Model
 
 def assemInit(self):
     self.assemList = []
-    self.assemUndo = []
     self.tmpModel = 0
     self.preview = None
     self.assemMode = "view"
@@ -24,10 +23,9 @@ def assemKeyPressed(self, keyCode, modifier):
         self.assemMode = "view"
     if keyCode == pygame.K_h:
         self.mode = "help"
+        self.helpScreen = 4
     if keyCode == pygame.K_u and len(self.assemList) > 0:
-        self.assemUndo.append(self.assemList.pop())
-    # if keyCode == pygame.K_r and len(self.assemUndo) > 0:
-    #     self.assemList.append(self.assemUndo.pop())
+        self.assemList.pop()
         
     if self.assemMode == "import": # change imported model
         if keyCode == pygame.K_LEFT and self.tmpModel > 0:

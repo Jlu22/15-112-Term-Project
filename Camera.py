@@ -2,9 +2,10 @@ import pygame
 import math
 
 class Camera(object):
-    def __init__(self, pos = (0, 0, 0), rot = (0, 0)):
+    def __init__(self, depth, pos = (0, 0, 0), rot = (0, 0)):
         self.pos = list(pos)
         self.rot = list(rot)
+        self.depth = depth
     
     def rotate(self, x, y):
         x /= 200
@@ -19,12 +20,19 @@ class Camera(object):
         return x*math.cos(rad)-y*math.sin(rad), y*math.cos(rad)+x*math.sin(rad)
         
     def update(self, dt, key):
-        timePressed = dt/100
+        timePressed = dt/200
         if key(pygame.K_o):
             self.pos[2] -= timePressed
         if key(pygame.K_i):
-            if self.pos[2] < -3: # so camera doesn't go through model
-                self.pos[2] += timePressed
+            if abs(self.depth) < 6:#so camera doesn't go through model
+                if self.pos[2] < -3: 
+                    self.pos[2] += timePressed
+            elif abs(self.depth) < 9:
+                if self.pos[2] < -4.5:
+                    self.pos[2] += timePressed
+            else:
+                if self.pos[2] < -6:
+                    self.pos[2] += timePressed
         if key(pygame.K_RIGHT):
             self.pos[0] += timePressed
         if key(pygame.K_LEFT):
